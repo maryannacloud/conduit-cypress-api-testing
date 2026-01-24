@@ -6,7 +6,14 @@ it('intercept api', () => {
   cy.loginToApplication()
 })
 
-it.only('modify api response', () => {
+// for more granular api interception configuration we can use route matcher
+it('intercept api', () => {
+  cy.intercept({method: 'GET', pathname: 'tags'}, {fixture: 'tags.json'})
+  cy.intercept('GET', '**/articles*', {fixture: 'articles.json'})
+  cy.loginToApplication()
+})
+
+it('modify api response', () => {
   cy.intercept('GET', '**/articles*', req => {
     req.continue(res => {
       res.body.articles[0].favoritesCount = 999999
