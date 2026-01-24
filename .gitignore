@@ -1,0 +1,21 @@
+# Node
+node_modules/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# Environment variables
+.env
+.env.*
+
+# VSCode
+.vscode/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
