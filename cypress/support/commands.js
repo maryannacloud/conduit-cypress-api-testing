@@ -24,10 +24,25 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('loginToApplication', () => { 
-    cy.visit('/')
-    cy.contains('Sign in').click()
-    cy.get('[placeholder="Email"]').type(Cypress.env('loginEmail'))
-    cy.get('[placeholder="Password"]').type(Cypress.env('loginPassword'))
-    cy.contains('button', 'Sign in').click()
- })
+Cypress.Commands.add('loginToApplication', () => {
+
+    cy.request({
+        url: 'https://conduit-api.bondaracademy.com/api/users/login',
+        method: 'POST',
+        body: {
+            "user": {
+                "email": Cypress.env('loginEmail'),
+                "password": Cypress.env('loginPassword')
+            }
+        }
+    }).then(response => {
+        expect(response.status).to.equal(200)
+        const accessToken = response.body.user.token
+        cy.wrap(accessToken).as('accessToken')
+        cy.visit('/', {
+            onBeforeLoad(win) {
+                win.localStorage.setItem('jwtToken', accessToken)
+            }
+        })
+    })
+})
