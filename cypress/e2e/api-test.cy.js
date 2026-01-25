@@ -39,10 +39,11 @@ it('waiting for apis', () => {
   })
 })
 
-it.only('create new article', () => {
+it.only('delete newly created article', () => {
 
   const uniqueTitle = `AI Article ${Date.now()}`
 
+  // Step 1: get the auth token
   cy.request({
     url: 'https://conduit-api.bondaracademy.com/api/users/login',
     method: 'POST',
@@ -56,6 +57,7 @@ it.only('create new article', () => {
     expect(loginResponse.status).to.equal(200)
     const accessToken = `Token ${loginResponse.body.user.token}`
 
+    // Step 2: created a new article with the unique title via API
     cy.request({
       url: 'https://conduit-api.bondaracademy.com/api/articles',
       method: 'POST',
@@ -75,4 +77,13 @@ it.only('create new article', () => {
       expect(response.body.article.title).to.equal(uniqueTitle)
     })
   })
+
+  cy.loginToApplication()
+  cy.contains('AI is amazing').click()
+  cy.intercept('GET', '**/articles*').as('articleApiCall')
+
+  // Step 3: delete newly created article
+  cy.contains('button', 'Delete Article').first().click()
+  cy.wait('@articleApiCall')
+  cy.get('app-article-list').should('not.contain.text', 'AI is amazing')
 })
