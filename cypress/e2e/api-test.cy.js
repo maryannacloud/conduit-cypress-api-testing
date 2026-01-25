@@ -1,15 +1,15 @@
 /// <reference types="cypress" />
 
 it('intercept api', () => {
-  cy.intercept('GET', '**/tags', {fixture: 'tags.json'})
-  cy.intercept('GET', '**/articles*', {fixture: 'articles.json'})
+  cy.intercept('GET', '**/tags', { fixture: 'tags.json' })
+  cy.intercept('GET', '**/articles*', { fixture: 'articles.json' })
   cy.loginToApplication()
 })
 
 // for more granular api interception configuration we can use route matcher
 it('intercept api - router matcher', () => {
-  cy.intercept({method: 'GET', pathname: 'tags'}, {fixture: 'tags.json'})
-  cy.intercept('GET', '**/articles*', {fixture: 'articles.json'})
+  cy.intercept({ method: 'GET', pathname: 'tags' }, { fixture: 'tags.json' })
+  cy.intercept('GET', '**/articles*', { fixture: 'articles.json' })
   cy.loginToApplication()
 })
 
@@ -27,7 +27,7 @@ it('modify api response', () => {
 // waiting for an API helps to make tests more stable
 // we have to define an intercept before every scenario
 // and provide the alias name for the API
-it.only('waiting for apis', () => {
+it('waiting for apis', () => {
   cy.intercept('GET', '**/articles*').as('articleApiCall')
   cy.loginToApplication()
   cy.wait('@articleApiCall').then(apiArticleObject => {
@@ -36,5 +36,43 @@ it.only('waiting for apis', () => {
   })
   cy.get('app-article-list').invoke('text').then(allArticleTexts => {
     expect(allArticleTexts).to.contain('Bondar Academy')
+  })
+})
+
+it.only('create new article', () => {
+
+  const uniqueTitle = `AI Article ${Date.now()}`
+
+  cy.request({
+    url: 'https://conduit-api.bondaracademy.com/api/users/login',
+    method: 'POST',
+    body: {
+      "user": {
+        "email": Cypress.env('loginEmail'),
+        "password": Cypress.env('loginPassword')
+      }
+    }
+  }).then(loginResponse => {
+    expect(loginResponse.status).to.equal(200)
+    const accessToken = `Token ${loginResponse.body.user.token}`
+
+    cy.request({
+      url: 'https://conduit-api.bondaracademy.com/api/articles',
+      method: 'POST',
+      body: {
+        "article": {
+          "title": uniqueTitle,
+          "description": "AI is amazing",
+          "body": "This is a body",
+          "tagList": []
+        }
+      },
+      headers: {
+        'Authorization': accessToken
+      }
+    }).then(response => {
+      expect(response.status).to.equal(201)
+      expect(response.body.article.title).to.equal(uniqueTitle)
+    })
   })
 })
