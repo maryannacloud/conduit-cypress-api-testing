@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
-it('intercept api and modify response', () => {
+it('intercept api and modify response', {retries: 2}, () => {
   cy.intercept('GET', '**/articles*', req => {
     req.continue(res => {
-      res.body.articles[0].favoritesCount = 999999
+      res.body.articles[0].favoritesCount = 9999999
       res.send(res.body)
     })
   })
