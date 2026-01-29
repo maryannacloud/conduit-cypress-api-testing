@@ -1,7 +1,9 @@
 {
   "name": "conduit-cypress-api-testing",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy_run_dev": "npx cypress open --env username='maryanna_cloud@softwaretesting.com', password='Password123'",
+    "cy_run_qa": "npx cypress open --env username=$USER_NAME, password=$PASSWORD"
   },
   "devDependencies": {
     "cypress": "^15.9.0"

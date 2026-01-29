@@ -3,7 +3,7 @@
 it('e2e api test', () => {
     const uniqueTitle = `AI Article ${Date.now()}`
     cy.request({
-        url: 'https://conduit-api.bondaracademy.com/api/users/login',
+        url:  Cypress.env('') + '/users/login',
         method: 'POST',
         body: {
             "user": {
@@ -15,7 +15,7 @@ it('e2e api test', () => {
         expect(loginResponse.status).to.equal(200)
         const accessToken = `Token ${loginResponse.body.user.token}`
         cy.request({
-            url: 'https://conduit-api.bondaracademy.com/api/articles',
+            url: Cypress.env('') + '/articles',
             method: 'POST',
             body: {
                 "article": {
@@ -34,7 +34,7 @@ it('e2e api test', () => {
 
         cy.request({
             method: 'GET',
-            url: 'https://conduit-api.bondaracademy.com/api/articles',
+            url: Cypress.env('') + '/articles',
             headers: { Authorization: accessToken }
         }).then(response => {
             expect(response.status).to.equal(200)
@@ -46,7 +46,7 @@ it('e2e api test', () => {
 
             cy.request({
                 method: 'DELETE',
-                url: `https://conduit-api.bondaracademy.com/api/articles/${slugID}`,
+                url: `${Cypress.env('apiUrl')}/articles/${slugID}`,
                 headers: { Authorization: accessToken }
             }).then(deleteResponse => {
                 expect(deleteResponse.status).to.equal(204)
@@ -56,7 +56,7 @@ it('e2e api test', () => {
 
         cy.request({
             method: 'GET',
-            url: 'https://conduit-api.bondaracademy.com/api/articles',
+            url: Cypress.env('') + 'articles',
             headers: { 'Authorization': accessToken }
         }).then(response => {
             expect(response.status).to.equal(200)

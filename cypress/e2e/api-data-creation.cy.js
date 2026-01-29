@@ -5,7 +5,7 @@ it('delete newly created article', () => {
   const uniqueTitle = `AI Article ${Date.now()}`
   cy.get('@accessToken').then(token => {
     cy.request({
-      url: 'https://conduit-api.bondaracademy.com/api/articles',
+      url: Cypress.env('') + '/articles',
       method: 'POST',
       body: {
         "article": {

@@ -22,3 +22,6 @@ npm-debug.log*
 
 # Cypress environment variables
 cypress.env.json
+cypress.config.js
+package.json
+cypress.dev.config.js
