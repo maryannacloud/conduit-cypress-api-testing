@@ -1,8 +1,10 @@
 /// <reference types="cypress" />
 
+import { faker } from '@faker-js/faker';
+
 it('delete newly created article', () => {
   cy.loginToApplication()
-  const uniqueTitle = `AI Article ${Date.now()}`
+  const uniqueTitle = faker.person.fullName
   cy.get('@accessToken').then(token => {
     cy.request({
       url: Cypress.env('') + '/articles',
@@ -10,8 +12,8 @@ it('delete newly created article', () => {
       body: {
         "article": {
           "title": uniqueTitle,
-          "description": "AI is amazing",
-          "body": "This is a body",
+          "description": faker.person.jobTitle,
+          "body": faker.lorem.paragraph(10),
           "tagList": []
         }
       },
