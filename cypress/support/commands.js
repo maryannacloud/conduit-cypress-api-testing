@@ -27,7 +27,7 @@
 Cypress.Commands.add('loginToApplication', () => {
 
     cy.request({
-        url: 'https://conduit-api.bondaracademy.com/api/users/login',
+        url: Cypress.env('') + '/users/login',
         method: 'POST',
         body: {
             "user": {
