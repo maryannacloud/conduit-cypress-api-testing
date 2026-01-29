@@ -6,6 +6,7 @@
     "cy_run_qa": "npx cypress open --env username=$USER_NAME, password=$PASSWORD"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.2.0",
     "cypress": "^15.9.0"
   }
 }
