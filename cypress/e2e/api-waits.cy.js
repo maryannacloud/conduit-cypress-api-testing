@@ -5,7 +5,7 @@
 // and provide the alias name for the API
 it('waiting for apis', () => {
   cy.intercept('GET', '**/articles*').as('articleApiCall')
-  cy.loginToApplication()
+  cy.uiLogin()
   cy.wait('@articleApiCall').then(apiArticleObject => {
     console.log(apiArticleObject)
     expect(apiArticleObject.response.body.articles[0].title).to.contain('Bondar Academy')

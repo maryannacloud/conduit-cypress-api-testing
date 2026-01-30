@@ -3,7 +3,7 @@
 import { faker } from '@faker-js/faker';
 
 it('delete newly created article', () => {
-  cy.loginToApplication()
+  cy.uiLogin()
   const uniqueTitle = faker.person.fullName
   cy.get('@accessToken').then(token => {
     cy.request({
