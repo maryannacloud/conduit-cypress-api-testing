@@ -7,6 +7,6 @@ it('intercept api and modify response', {retries: 2}, () => {
       res.send(res.body)
     })
   })
-  cy.loginToApplication()
+  cy.uiLogin()
   cy.get('app-favorite-button').first().should('contain.text', '999999')
 })

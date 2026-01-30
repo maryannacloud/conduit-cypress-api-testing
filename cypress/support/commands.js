@@ -46,3 +46,17 @@ Cypress.Commands.add('loginToApplication', () => {
         })
     })
 })
+
+Cypress.Commands.add('uiLogin', () => {
+    cy.session('user', () => {
+        cy.visit('/')
+        cy.contains('Sign in').click()
+        cy.get('[placeholder="Email]').type(Cypress.env('username'))
+        cy.get('[placeholder="Password]').type(Cypress.env('password'))
+        cy.contains('button', 'Sign in').click()
+        cy.location('pathname').should('eq', '/')
+    }), {
+        cacheAccrossSpecs: true
+    }
+    cy.visit('/')
+})

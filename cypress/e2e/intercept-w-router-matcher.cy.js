@@ -4,5 +4,5 @@
 it('intercept api with router matcher', () => {
   cy.intercept({ method: 'GET', pathname: 'tags' }, { fixture: 'tags.json' })
   cy.intercept('GET', '**/articles*', { fixture: 'articles.json' })
-  cy.loginToApplication()
+  cy.uiLogin()
 })
