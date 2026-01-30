@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-it('intercept api and modify response', {retries: 2}, () => {
+it('intercept api and modify response', {retries: 2, tags: ['@smoke', 'likes']}, () => {
   cy.intercept('GET', '**/articles*', req => {
     req.continue(res => {
       res.body.articles[0].favoritesCount = 9999999

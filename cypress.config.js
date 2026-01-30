@@ -16,10 +16,12 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: "https://conduit.bondaracademy.com/",
     setupNodeEvents(on, config) {
-        require('cypress-mochawesome-reporter/plugin')(on);
-        config.env.username = process.env.USER_NAME
-        config.env.password = process.env.PASSWORD
-        return config
+      require('cypress-mochawesome-reporter/plugin')(on);
+      const { plugin: cypressGrepPlugin } = require('@cypress/grep/plugin')
+      cypressGrepPlugin(config)
+      config.env.username = process.env.USER_NAME
+      config.env.password = process.env.PASSWORD
+      return config
     },
 
     retries: {

@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-it('e2e api test', () => {
+it('e2e api test', {tags: '@e2e'}, () => {
     const uniqueTitle = `AI Article ${Date.now()}`
     cy.request({
         url:  Cypress.env('') + '/users/login',
@@ -52,7 +52,6 @@ it('e2e api test', () => {
                 expect(deleteResponse.status).to.equal(204)
             })
         })
-
 
         cy.request({
             method: 'GET',

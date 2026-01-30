@@ -4,12 +4,12 @@
     "delete:reports": "rm -r cypress/reports/* || true",
     "prereport": "npm run delete:reports",
     "junit:merge": "npx junit-merge -d 'cypress/reports' -o 'cypress/reports/junit/results.xml'",
-
     "cy_run_dev": "npx cypress open --env username='maryanna_cloud@softwaretesting.com', password='Password123'",
     "cy_run_qa": "npx cypress open --env username=$USER_NAME, password=$PASSWORD",
     "cy:run:all": "npm run prereport && npx cypress run || true && npm run junit:merge"
   },
   "devDependencies": {
+    "@cypress/grep": "^5.1.0",
     "@faker-js/faker": "^10.2.0",
     "cypress": "^15.9.0",
     "cypress-multi-reporters": "^2.0.5",
